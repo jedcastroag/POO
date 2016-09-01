@@ -5,127 +5,76 @@
  */
 package laboratorio1;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Estudiante
  */
 public class Problema4 {
- 
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        //cavillamizarc@unal.edu.co        
-        String EsFr[][]= {{"hola", "bonjour"},
-                          {"adios","salut"},{"gracias","merci"},{"como","comment"},{"estas","allez-vouz"},{"bien","bien"},{"te","vous"},
-                          {"llamas","appelez-vous"},
-                          {"ayuda","au secours"},{"disculpe","pardon"},{"de","de"},{"nada","rien"}};
-       
-        String EsIt[][]= {{"hola", "boun giorno"},
-                          {"adios","ciao"},{"como","come" },{"estas","stai"},{"bien","bene"},{"gracias","grazie"},{"te","ti"},
-                          {"llamas","chiami"},{"me","mi"},
-                          {"por","per"},{"favor","favore"},{"si","si"},{"no","no"},{"hablas","parli"},{"español","spagnolo"}};
-        
-        String EsIn[][]= {{"hola", "hello"},{"adios","goodbye"},{"gracias","thank you"},{"disculpe","excuse me"},{"no","not"},
-                          {"bien","fine"},{"como","what"},{"te","your"},{"estas","are you"},
-                          {"nombre","name"},{"perdon","sorry"},{"ayuda","help"},{"perro","dog"},{"gato","cat"}};
-                          
-        
-        
-        String idiomaOrigen;//Indicados por el usuario
-        String idiomaDestino;//Indicados por el usuario
-        String palabra;//Indicados por el usuario
-        
-        java.util.Scanner flujo= new java.util.Scanner(System.in);
-           System.out.println("ingrese idioma origen: ");
-        idiomaOrigen = flujo.next();
-           System.out.println("ingrese idioma destino: ");
-        idiomaDestino = flujo.next();
-         /*  System.out.println("ingrese palabra: ");
-        palabra = flujo.next();*/
-        
-        int p;
-        String llenar;
-        System.out.println("ingrese cantidad de palabras: ");
-            p = flujo.nextInt();
-        String[]  fraseEsA = new String[p];
-        String[][] diccionario = new String[100][2];
-        String traduccion=null; 
-        
-        if(idiomaOrigen.equals("Espanol")){
-            switch(idiomaDestino){
-                case "Frances" : {diccionario=EsFr; break;}
-                case "Ingles" : {diccionario=EsIn;break;}
-                case "Italiano" : {diccionario=EsIt; break;}             
-                default: {System.out.println("Salida defecto");break;}
-            }
-            int k =0;
-            
-            while( k < fraseEsA.length){ 
-                System.out.println("ingrese palabra:");
-                palabra=flujo.next();
-              for(int i =0 ; i< diccionario.length;i++){
-            if (diccionario[i][0].equals(palabra)){
-                    traduccion = diccionario[i][1];
-                    break;
-                }
-            if (traduccion==null){
-                traduccion = palabra;                
-            }
-              
-            }
-            
-             fraseEsA[k] = traduccion;
-             k++;
-            }
-            
-            for(int l=0; l<fraseEsA.length;l++){
-            System.out.print(fraseEsA[l]+"  ");
-            
+    static String buscadorPalabra(String[][] diccionario, String palabra, int filaorigen, int filadestino) {
+        String traduccion = "";
+        for (int i = 0; i < 13; i++) {
+            if (diccionario[filaorigen][i].equals(palabra)) {
+                traduccion = diccionario[filadestino][i];
             }
         }
-        if(!idiomaOrigen.equals("Espanol")) {
-        for(int k =0; k<fraseEsA.length;k++){ 
-               System.out.println("ingrese palabra:");
-                palabra=flujo.next();
-                
-          switch(idiomaOrigen){
-                case "Frances" : {diccionario=EsFr; break;}
-                case "Ingles" : {diccionario=EsIn;break;}
-                case "Italiano" : {diccionario=EsIt; break;  }             
-                default: {System.out.println("Salida defecto");break;}
-            }
-           
-            
-            for(int i =0 ; i< diccionario.length;i++){
-                if(diccionario[i][1].equals(palabra)){
-                    traduccion = diccionario[i][0];
-                    break;
+        if (traduccion.equals("")) {
+            traduccion = "(No existe palabra para la palabra: " + palabra + ")";
+        }
+        return traduccion;
+    }
+
+    static String traductor(String[][] diccionario, String palabras, int filaorigen, int filadestino) {
+
+        String traduccion = "";
+        String palabra = "";
+        int posletrainicio = 0;
+        for (int i = posletrainicio; i < palabras.length(); i++) {
+            if (palabras.charAt(i) == ' ') {
+                for (int j = posletrainicio; j < i; j++) {
+                    palabra = palabra + palabras.charAt(j);
                 }
+                palabra = buscadorPalabra(diccionario, palabra, filaorigen, filadestino);
+                traduccion = traduccion + " " + palabra;
+                palabra = "";
+                posletrainicio = i + 1;
             }
-           if(!idiomaDestino.equals("Espanol")){
-                switch(idiomaDestino){
-                case "Frances" : {diccionario=EsFr; break;}
-                case "Ingles" : {diccionario=EsIn;break;}
-                case "Italiano" : {diccionario=EsIt; break;  }             
-                default: {System.out.println("Salida defecto");break;}
-                }
-            
-            for(int i =0 ; i< diccionario.length;i++){
-                if(diccionario[i][0].equals(traduccion)){
-                    traduccion = diccionario[i][1];                    
-                    break;}
-            if(traduccion==null){
-                traduccion = palabra;
-            }  
-            }
-           }
-           fraseEsA[k]= traduccion;
-           }
-           for(int l=0; l<fraseEsA.length;l++){
-            System.out.print(fraseEsA[l]+" ");
-           }
-            }        
-    } 
+        }
+        for (int i = posletrainicio; i < palabras.length(); i++) {
+            palabra = palabra + palabras.charAt(i);
+        }
+        palabra = buscadorPalabra(diccionario, palabra, filaorigen, filadestino);
+        traduccion = traduccion + " " + palabra;
+        return traduccion;
+    }
+
+    static void diccionario() {
+        Scanner flujo = new Scanner(System.in);
+        //Español-1,Frances-2, Italiano-3,Ingles-3
+        String[][] diccionario = {{"hola", "como", "estas", "adios", "bien", "tu", "llamas", "gracias", "me", "ayuda", "disculpe", "de", "nada"},
+        {"bonjour", "Comment", "allez-vouz", "salut", "bien", "vôtre", "appelez-vous", "merci", "moi", "aider", "pardon", "de", "rien"},
+        {"ciao", "come", "stai", "addio", "bene", "vostra", "nome", "grazie", "mi", "aiutare", "mi scusi", "di", "niente"},
+        {"hello", "how", "are you", "goodbye", "fine", "your", "name", "thanks", "me", "help", "excuse", "of", "noting"},};
+
+        int idiomaOrigen;//Indicados por el usuario
+        int idiomaDestino;//Indicados por el usuario
+        String palabras;//Indicados por el usuario
+        System.out.println("Frase o Palabra(s)- Sentence or Word(s):");
+        palabras = flujo.nextLine();
+        
+        System.out.println("Lengua Nativa-Native Language (1.Español  2.Frances  3.Italiano  4.Ingles): ");
+        idiomaOrigen = flujo.nextInt() - 1;
+        System.out.println("Idioma Destino-Destiny Language (1.Español  2.Frances  3.Italiano  4.Ingles): ");
+        idiomaDestino = flujo.nextInt() - 1;
+
+        System.out.println(traductor(diccionario, palabras, idiomaOrigen, idiomaDestino));
+    }
+
+    public static void main(String[] args) {
+
+        diccionario();
+
+    }
 }
