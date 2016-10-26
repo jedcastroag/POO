@@ -11,4 +11,17 @@ package Laboratorio2;
  */
 public abstract class Ausencia {
     
+    public boolean estado;
+    protected Fecha fechainicio,fechafinal;
+
+    public Ausencia(boolean estado) {
+        this.estado = estado;
+    }
+
+    public abstract boolean getEstado();
+
+    public abstract void setEstado(boolean estado);
+    
+    
+    
 }
