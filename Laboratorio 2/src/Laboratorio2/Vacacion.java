@@ -12,36 +12,6 @@ package Laboratorio2;
 public class Vacacion extends Ausencia{
 
     public Vacacion(boolean estado) {
-        super(estado);
         this.estado = estado;
-    }
-
-    @Override
-    public boolean getEstado() {
-        return estado;
-    }
-
-    @Override
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-
-    public Fecha getFechainicio() {
-        return fechainicio;
-    }
-
-    public void setFechainicio(Fecha fechainicio) {
-        this.fechainicio = fechainicio;
-    }
-
-    public Fecha getFechafinal() {
-        return fechafinal;
-    }
-
-    public void setFechafinal(Fecha fechafinal) {
-        this.fechafinal = fechafinal;
-    }
-    
-    
-    
+    } 
 }
