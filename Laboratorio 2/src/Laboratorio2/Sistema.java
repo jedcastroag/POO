@@ -13,8 +13,8 @@ import java.util.*;
  */
 public class Sistema {
 
-    private HashMap<String, Empleado> empleados;
-    private Fabrica[] fabricas;
+    private final HashMap<String, Empleado> empleados;
+    private final Fabrica[] fabricas;
 
     public Sistema() {
         this.empleados = new HashMap<>();
@@ -34,19 +34,17 @@ public class Sistema {
 
     public ArrayList<Empleado> listarDisponibles() {
         ArrayList<Empleado> disponibles = new ArrayList<>();
-        this.empleados.values().stream().filter((e) -> (e.getIncapacitado().estado==false || e.getVacaciones().estado)==false).forEach((e) -> {
-            disponibles.add(e);
-        });
+        for (Empleado e : this.empleados.values()) 
+            if(!e.getIncapacitado().estado && !e.getVacaciones().estado)
+                disponibles.add(e);
         return disponibles;
     }
 
-    public ArrayList<Empleado> listarNoDisponibles() {
+    public ArrayList<Empleado> listarNoDisponibles(Calendar fechalunes){
         ArrayList<Empleado> nodisponibles = new ArrayList<>();
-        Calendar hoy = Calendar.getInstance();
-        hoy.set(hoy.getWeekYear(), hoy.get(Calendar.WEEK_OF_YEAR), Calendar.SATURDAY);
         for (Empleado e : this.empleados.values()) {
-            if (e.getIncapacitado().estado ==true || e.getVacaciones().estado==true) {
-                if (e.getIncapacitado().fechafinal.before(hoy)) {
+            if ((e.getIncapacitado().estado || e.getVacaciones().estado)&&(e.getIncapacitado().fechafinal!=null||e.getVacaciones().fechafinal != null)) {
+                if (fechalunes.before(e.getIncapacitado().fechafinal) || fechalunes.before(e.getVacaciones().fechafinal)) {
                     nodisponibles.add(e);
                 }
             }
@@ -54,11 +52,11 @@ public class Sistema {
         return nodisponibles;
     }
 
-    public ArrayList<Empleado> listarPosiblesDisponibles() {
+    public ArrayList<Empleado> listarPosiblesDisponibles(Calendar fechalunes) {
         ArrayList<Empleado> posiblesdisponibles = new ArrayList<>();
         for (Empleado e : this.empleados.values()) {
-            if (e.getIncapacitado().estado==true || !e.getVacaciones().estado==true) {
-                if (e.getIncapacitado().fechafinal.getTime().getDay() < Calendar.SATURDAY) {
+            if ((e.getIncapacitado().estado || e.getVacaciones().estado)&&(e.getIncapacitado().fechafinal!=null||e.getVacaciones().fechafinal != null)) {
+                if (fechalunes.after(e.getIncapacitado().fechafinal) || fechalunes.after(e.getVacaciones().fechafinal)) {
                     posiblesdisponibles.add(e);
                 }
             }

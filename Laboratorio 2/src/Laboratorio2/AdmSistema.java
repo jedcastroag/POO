@@ -65,21 +65,22 @@ public class AdmSistema {
         e1.getRegistro().setFabricaactual(s.buscarFabrica(1));
         try {
             e1.getRegistro().setLineaactual(e1.getRegistro().getFabricaactual().getLinea("linea1"));
-            System.out.println("La linea: "+ e1.getRegistro().getLineaactual().getNombre() + " fue asignada");
+            System.out.println("La linea: " + e1.getRegistro().getLineaactual().getNombre() + " fue asignada");
         } catch (NullPointerException e) {
             System.out.println("La linea no existe en esta fabrica");
         }
         e1.getRegistro().setFabricaactual(s.buscarFabrica(1));
         try {
             e1.getRegistro().setLineaactual(e1.getRegistro().getFabricaactual().getLinea("linea3"));
-            System.out.println("La linea: "+ e1.getRegistro().getLineaactual().getNombre() + " fue asignada");
+            System.out.println("La linea: " + e1.getRegistro().getLineaactual().getNombre() + " fue asignada");
+
         } catch (NullPointerException e) {
             System.out.println("La linea no existe en esta fabrica");
         }
         //Cambiar estado de enfermedad e Incapacidad
-        e1.getIncapacitado().estado=true;
-        e2.getVacaciones().estado=true;
-        
+        e1.getIncapacitado().estado = true;
+        e2.getVacaciones().estado = true;
+
         //Asignar Fecha Vacaciones
         System.out.println("dd/MM/yyyy");
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -94,21 +95,70 @@ public class AdmSistema {
         e2.getVacaciones().fechafinal.set(2017, 0, 11);//Asigna una fecha (el mes es numerodelmes-1 y es el segundo argumento)
         System.out.println(format.format(e2.getVacaciones().fechafinal.getTime()));
         //Asignar dias de Incapacidad
-        System.out.println("dd/MM/yyyy");
         e1.getIncapacitado().fechafinal = Calendar.getInstance();//Inicializa con la fecha actual
-        e1.getIncapacitado().fechafinal.setLenient(false);//Restringe a que se asigne fechas con las reglas de un Calendario normal
         int diasdeincapacidad = 7;
         e1.getIncapacitado().fechafinal.add(Calendar.DAY_OF_MONTH, diasdeincapacidad);
-        System.out.println(format.format(e1.getIncapacitado().fechafinal.getTime()));
-        
+        System.out.println("fecha final incapacidad empleado 1: " + format.format(e1.getIncapacitado().fechafinal.getTime()));
+
         //Listar Disponibles
+        System.out.println("\nDisponibles");
         s.listarDisponibles().stream().forEach((empleado) -> {
             System.out.println(empleado);
         });
+
+        //Fecha del lunes para imprimir las tres listas
+        Calendar fechalunes = Calendar.getInstance();
+        fechalunes.set(Calendar.DAY_OF_MONTH, 31);//Configuración fecha prueba
+        System.out.println("\nfecha del lunes" + format.format(fechalunes.getTime()));
+        fechalunes.add(Calendar.DAY_OF_MONTH, 7);//Le sumo siete dias para poder mirar la lista de los posibles 
+        //disponibles y los no disponibles
+        System.out.println("fecha del siguiente lunes " + format.format(fechalunes.getTime()));
+
         //Listar Disponibles
-        s.listarNoDisponibles().stream().forEach((empleado) -> {
-            System.out.println(empleado);
-        });
+        System.out.println("\nNo Disponibles");
+        for (Empleado empleado : s.listarNoDisponibles(fechalunes)) {
+            System.out.print(empleado + " ");
+            try {
+                System.out.print("Vacaciones: " + format.format(empleado.getVacaciones().fechafinal.getTime()) + " ");
+            } catch (NullPointerException e) {
+                System.out.print("Vacaciones: no tiene fecha asignada ");
+            }
+            try {
+                System.out.print("Vacaciones: " + format.format(empleado.getIncapacitado().fechafinal.getTime()) + " ");
+            } catch (NullPointerException e) {
+                System.out.print("Incapacidad: no tiene fecha asignada ");
+            }
+            System.out.println("");
+        }
+        //Listar Posibles Disponibles
+        System.out.println("\nPosibles Disponibles");
+        for (Empleado empleado : s.listarPosiblesDisponibles(fechalunes)) {
+            System.out.print(empleado + " ");
+            try {
+                System.out.print("Vacaciones: " + format.format(empleado.getVacaciones().fechafinal.getTime()) + " ");
+            } catch (NullPointerException e) {
+                System.out.print("Vacaciones: no tiene fecha asignada ");
+            }
+            try {
+                System.out.print("Vacaciones: " + format.format(empleado.getIncapacitado().fechafinal.getTime()) + " ");
+            } catch (NullPointerException e) {
+                System.out.print("Incapacidad: no tiene fecha asignada ");
+            }
+            System.out.println("");
+        }
+        //Mostrar el registro poerativo de los empleados disponibles
+        System.out.println("Empleado | Experiencia | Habilidades");
+        for (Empleado emp : s.listarDisponibles()) {
+            System.out.print(emp);
+            try {
+                System.out.print(" | " + emp.getRegistro().getExperiencia() + " | ");
+                System.out.print(emp.getRegistro().getHabilidades());
+            } catch (NullPointerException e) {
+                System.out.print(" | null | ");
+            }
+            System.out.println("");
+        }
+        
     }
 
 }
