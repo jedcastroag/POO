@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Laboratorio2;
+package SistemaFooCo;
+
+import java.util.*;
 
 /**
  *
  * @author Jeffer
  */
-public class Vacacion extends Ausencia{
-
-    public Vacacion(boolean estado) {
-        this.estado = estado;
-    } 
+public abstract class Ausencia {
+    
+    public boolean estado;
+    protected Calendar fechainicio,fechafinal;
+    
 }
