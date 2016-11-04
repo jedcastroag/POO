@@ -27,32 +27,5 @@ public class Programa {
         this.programa = new File("Programa.txt");
             
     }
-
-    public void read() throws FileNotFoundException {
-        Scanner lectura = new Scanner(this.programa);
-        lectura.useDelimiter(",");
-        while (lectura.hasNext()) {
-            int numlineas = lectura.nextInt();
-            for (int i = 0; i < numlineas; i++) {
-                String numlinea = lectura.next();
-                this.lineas.put(numlinea, new Linea());
-            }
-            int numturnos = lectura.nextInt();
-            for (int i = 0; i < numturnos; i++) {
-                Turno t = new Turno();
-                TarjetaTrabajo tar = new TarjetaTrabajo();
-                t.tarjeta = tar;
-                int numact = lectura.nextInt();
-                for (int j = 0; j < numact; j++) {
-                   String idact = lectura.next();
-                   Actividad a = new Actividad();
-                   a.id=idact;
-                   t.actividades.add(a);
-                }
-                
-            }
-        }
-        lectura.close();
-    }
     
 }
