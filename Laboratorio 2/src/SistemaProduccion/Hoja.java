@@ -11,11 +11,7 @@ import java.util.ArrayList;
  *
  * @author Sergio Romero
  */
-public class Turno {
-    
-    public String id,duracion;
-    public TarjetaTrabajo tarjeta;
-    public ArrayList<Actividad> actividades;
-    
-    
+public abstract class Hoja {
+    public ArrayList<Tarea> tareas;
+    public int numtrabajo;
 }

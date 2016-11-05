@@ -5,11 +5,38 @@
  */
 package SistemaProduccion;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sergio Romero
  */
 public class Almacen {
-    private Supervisor sooputamadre;
-    
+
+    public ArrayList<Linea> lineas;
+    public ArrayList<TarjetaTrabajo> tarjetas;
+    public int numproductos;
+
+    public Almacen(int numproductos) {
+        this.numproductos = numproductos;
+    }    
+
+    public boolean reabastecer(Linea linea) {
+        if (linea.numproductos < linea.calcularProdTotales()) {
+            linea.numproductos = (linea.calcularProdTotales()-linea.numproductos);
+            return true;
+        }
+        return false;
+    }
+    public Linea buscarLinea(int clave){
+        Linea l=null;
+        for (Linea linea : lineas) {
+            if (linea.numlinea == clave) {
+                l =  linea;
+                break;
+            }
+        }
+        return l;
+    }
+
 }

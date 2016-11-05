@@ -11,7 +11,18 @@ import java.util.Calendar;
  *
  * @author Sergio Romero
  */
-public abstract class Habstracta {
-    public Calendar inicio;
-    public Calendar terminar;
+public class Tarea {
+    
+    public Calendar horainicio,horafinal;
+    public String descripcion;
+    public int numproductos;
+    public boolean ausencia;
+
+    public Tarea() {
+        this.numproductos = 0;
+        this.ausencia = false;
+    }
+    
+    
+    
 }

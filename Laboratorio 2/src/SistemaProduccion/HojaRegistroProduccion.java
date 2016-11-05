@@ -9,7 +9,7 @@ package SistemaProduccion;
  *
  * @author Sergio Romero
  */
-public class Hojadetiempo extends Habstracta {
-    
-    
+public class HojaRegistroProduccion extends Hoja {
+
+    public int cantproduccion;
 }

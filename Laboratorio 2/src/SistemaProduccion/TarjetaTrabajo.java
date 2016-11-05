@@ -10,5 +10,12 @@ package SistemaProduccion;
  * @author Sergio Romero
  */
 public class TarjetaTrabajo {
+    public int numtrabajo;
+
+    public TarjetaTrabajo(int numtrabajo) {
+        this.numtrabajo = numtrabajo;
+    }
+    
+    
     
 }

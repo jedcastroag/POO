@@ -5,16 +5,10 @@
  */
 package SistemaProduccion;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Sergio Romero
  */
-public class Actividad {
-    
-    public String id,descripcion;
-    public ArrayList<String> materiales;
-    
+public class HojaTiempo extends Hoja {
     
 }
